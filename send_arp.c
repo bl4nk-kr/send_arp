@@ -21,10 +21,33 @@ void get_ip(u_int8_t *ip_addr, u_int8_t *interface) {
 	close(s);
 }
 
+void print_mac(u_int8_t *mac_addr, u_int8_t *name) {
+	int i;
+
+	printf("[+]MAC addr of %-9s: ", name);
+	for(i=0;i<6;i++) {
+		if(i != 5)
+			printf("%02x:", mac_addr[i]);
+		else
+			printf("%02x\n", mac_addr[i]);
+	}
+}
+
+void print_ip(u_int8_t *ip_addr, u_int8_t *name) {
+	int i;
+
+	printf("[+]IP  addr of %-9s: ", name);
+	for(i=0;i<4;i++) {
+		if(i != 3)
+			printf("%d.", ip_addr[i]);
+		else
+			printf("%d\n", ip_addr[i]);
+	}
+}
+
 void gen_arp_packet(u_int8_t *packet, u_int8_t *src_mac, u_int8_t *dst_mac, u_int8_t *src_ip, u_int8_t *dst_ip, u_int16_t opcode) {
 	struct ether_header *eptr;
 	struct arp_header *aptr;
-	int i;
 
 	eptr = (struct ether_header *)malloc(sizeof(struct ether_header));
 	aptr = (struct arp_header *)malloc(sizeof(struct arp_header));
