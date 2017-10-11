@@ -1,7 +1,7 @@
 #include "send_arp.h"
 
 void get_mac(u_int8_t *mac_addr, u_int8_t *interface) {
-	int s,i;
+	int s;
 	struct ifreq ifr;
 	s = socket(AF_INET, SOCK_DGRAM, 0);
 	strncpy(ifr.ifr_name, interface, sizeof(ifr.ifr_name));
@@ -15,7 +15,7 @@ void get_ip(u_int8_t *ip_addr, u_int8_t *interface) {
 	struct ifreq ifr;
 	s = socket(AF_INET, SOCK_DGRAM, 0);
 	ifr.ifr_addr.sa_family = AF_INET;
-	strncpy(ifr.ifr_name, interface, IFNAMSIZ-1);
+	strncpy(ifr.ifr_name, interface, sizeof(ifr.ifr_name));
 	ioctl(s, SIOCGIFADDR, &ifr);
 	memcpy(ip_addr, &((struct sockaddr_in *)&ifr.ifr_addr)->sin_addr, IP_ADDR_LEN);
 	close(s);
